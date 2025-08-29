@@ -1,5 +1,4 @@
-package com.tnsif.ShoppingMallManagement_Order;
-
+package com.tnsif.ShoppingMallManagement_Order.Order;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;

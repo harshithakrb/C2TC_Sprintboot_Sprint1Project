@@ -1,4 +1,4 @@
-package com.tnsif.ShoppingMallManagement_Order;
+package com.tnsif.ShoppingMallManagement_Order.OrderController;
 
 import java.util.List;
 
@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.tnsif.ShoppingMallManagement_Order.Order.Order;
+import com.tnsif.ShoppingMallManagement_Order.OrderService.OrderService;
 
 import jakarta.persistence.NoResultException;
 

@@ -1,9 +1,12 @@
-package com.tnsif.ShoppingMallManagement_Order;
+package com.tnsif.ShoppingMallManagement_Order.OrderService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tnsif.ShoppingMallManagement_Order.Order.Order;
+import com.tnsif.ShoppingMallManagement_Order.OrderRepository.OrderRepository;
 
 import jakarta.transaction.Transactional;
 
