@@ -1,4 +1,4 @@
-package com.tnsif.ShoppingMallManagement_Order.OrderController;
+package com.tnsif.ShoppingMallManagement_Order.controller;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tnsif.ShoppingMallManagement_Order.Order.Order;
-import com.tnsif.ShoppingMallManagement_Order.OrderService.OrderService;
+import com.tnsif.ShoppingMallManagement_Order.Service.OrderService;
+import com.tnsif.ShoppingMallManagement_Order.entity.Order;
 
 import jakarta.persistence.NoResultException;
 
