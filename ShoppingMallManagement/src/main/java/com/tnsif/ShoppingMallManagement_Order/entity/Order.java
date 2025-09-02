@@ -29,10 +29,12 @@ public class Order {
     @Column(name = "order_date")
     private LocalDate orderDate;
 
+    //default constructor
     public Order() {
         super();
     }
 
+    //parameterized constructor
     public Order(int orderId, int customerId, String productName, int quantity, double totalPrice, LocalDate orderDate) {
         super();
         this.orderId = orderId;
@@ -43,6 +45,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    //getters and setters
     public int getOrderId() {
         return orderId;
     }
@@ -91,6 +94,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    //toString()
     @Override
     public String toString() {
         return "Order [orderId=" + orderId + ", customerId=" + customerId +

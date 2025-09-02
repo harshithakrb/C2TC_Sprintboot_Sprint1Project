@@ -17,14 +17,14 @@ public class OrderService {
     @Autowired
     private OrderRepository repo;
 
-    // Get all orders
+    // Get all orders in DB
     public List<Order> listAll() {
         return repo.findAll();
     }
 
     // Save order
     public void save(Order order) {
-        repo.save(order);
+        repo.save(order);//insert or update an order 
     }
 
     // Get order by ID
