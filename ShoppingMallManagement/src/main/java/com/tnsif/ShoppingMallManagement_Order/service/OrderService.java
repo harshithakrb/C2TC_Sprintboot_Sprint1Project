@@ -1,43 +1,43 @@
-package com.tnsif.ShoppingMallManagement_Order.Service;
+package com.tnsif.ShoppingMallManagement_Order.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tnsif.ShoppingMallManagement_Order.entity.Order;
+import com.tnsif.ShoppingMallManagement_Order.model.Order;
 import com.tnsif.ShoppingMallManagement_Order.repository.OrderRepository;
 
-import jakarta.transaction.Transactional;
+import jakarta.persistence.NoResultException;
 
 @Service
-@Transactional
 public class OrderService {
 
     @Autowired
     private OrderRepository repo;
 
-    // Get all orders in DB
+    // Get all orders
     public List<Order> listAll() {
         return repo.findAll();
     }
 
-    // Save order
+    // Save a new order
     public void save(Order order) {
-        repo.save(order);//insert or update an order 
+        repo.save(order);
     }
 
-    // Get order by ID
-    public Order get(Integer id) {
-        return repo.findById(id).get();
+    // Get an order by ID
+    public Order get(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new NoResultException("Order not found with id " + id));
     }
 
-    // Delete order
-    public void delete(Integer id) {
+    // Delete an order by ID
+    public void delete(Long id) {
         repo.deleteById(id);
     }
 
-    // Update order
+    // Update an order (just reuse save)
     public void update(Order order) {
         repo.save(order);
     }
