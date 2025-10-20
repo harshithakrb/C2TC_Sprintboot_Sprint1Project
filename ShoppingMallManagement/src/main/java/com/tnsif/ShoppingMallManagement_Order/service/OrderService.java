@@ -1,44 +1,32 @@
 package com.tnsif.ShoppingMallManagement_Order.service;
 
-import java.util.List;
-
+import com.tnsif.ShoppingMallManagement_Order.model.Order;
+import com.tnsif.ShoppingMallManagement_Order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tnsif.ShoppingMallManagement_Order.model.Order;
-import com.tnsif.ShoppingMallManagement_Order.repository.OrderRepository;
-
-import jakarta.persistence.NoResultException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
 
     @Autowired
-    private OrderRepository repo;
+    private OrderRepository orderRepository;
 
-    // Get all orders
-    public List<Order> listAll() {
-        return repo.findAll();
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
     }
 
-    // Save a new order
-    public void save(Order order) {
-        repo.save(order);
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
-    // Get an order by ID
-    public Order get(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new NoResultException("Order not found with id " + id));
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepository.findById(id);
     }
 
-    // Delete an order by ID
-    public void delete(Long id) {
-        repo.deleteById(id);
-    }
-
-    // Update an order (just reuse save)
-    public void update(Order order) {
-        repo.save(order);
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }

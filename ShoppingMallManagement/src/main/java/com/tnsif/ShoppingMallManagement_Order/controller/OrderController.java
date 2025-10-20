@@ -1,11 +1,12 @@
 package com.tnsif.ShoppingMallManagement_Order.controller;
 
 import com.tnsif.ShoppingMallManagement_Order.model.Order;
-import com.tnsif.ShoppingMallManagement_Order.repository.OrderRepository;
+import com.tnsif.ShoppingMallManagement_Order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -14,58 +15,43 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
+
+    // Create a new order
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        order.setUpdatedAt(LocalDateTime.now()); // Set updatedAt as creation time
+        Order savedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(savedOrder);
+    }
 
     // Get all orders
     @GetMapping
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
-    // Add new order (manual ID required)
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        if (order.getOrderId() == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        if (orderRepository.existsById(order.getOrderId())) {
-            return ResponseEntity.status(409).build(); // Conflict if ID already exists
-        }
-        Order savedOrder = orderRepository.save(order);
-        return ResponseEntity.ok(savedOrder);
+        return orderService.getAllOrders();
     }
 
     // Get order by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
-        return orderRepository.findById(id)
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Update order
+    // Update an existing order
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        return orderRepository.findById(id)
-                .map(existing -> {
-                    existing.setCustomerId(order.getCustomerId());
-                    existing.setProductName(order.getProductName());
-                    existing.setQuantity(order.getQuantity());
-                    existing.setTotalPrice(order.getTotalPrice());
-                    existing.setOrderDate(order.getOrderDate());
-                    Order updated = orderRepository.save(existing);
-                    return ResponseEntity.ok(updated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        order.setOrderId(id);
+        order.setUpdatedAt(LocalDateTime.now()); // Update timestamp on modification
+        Order updatedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(updatedOrder);
     }
 
-    // Delete order
+    // Delete an order
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        if (!orderRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        orderRepository.deleteById(id);
+        orderService.deleteOrder(id);
         return ResponseEntity.ok().build();
     }
 }
